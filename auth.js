@@ -1,138 +1,48 @@
-// Function to toggle between login and sign-up
-function showLogin() {
-    document.getElementById("loginForm").classList.remove("hidden");
-    document.getElementById("signupForm").classList.add("hidden");
-}
+// auth.js
 
-function showSignup() {
-    document.getElementById("signupForm").classList.remove("hidden");
-    document.getElementById("loginForm").classList.add("hidden");
-}
+// Login Form Submission
+document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
 
-// Function for User Sign-Up
-function signup() {
-    let name = document.getElementById("signupName").value;
-    let email = document.getElementById("signupEmail").value;
-    let password = document.getElementById("signupPassword").value;
-    let errorMsg = document.getElementById("signupError");
-
-    if (!name || !email || !password) {
-        errorMsg.textContent = "All fields are required!";
-        return;
-    }
-
-    // Check if user already exists
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let existingUser = users.find(user => user.email === email);
-
-    if (existingUser) {
-        errorMsg.textContent = "Email is already registered!";
-        return;
-    }
-
-    // Save user details
-    users.push({ name, email, password });
-    // localStorage.setItem("users", JSON.stringify(users));
-
-    let URL = `${SERVER.HOST}${SERVER.SERVER_BASEURL}:${SERVER.PORT}${AUTH.SIGNUP}`
-
-    let body = { name: name, email: email, password: password }
-
-    let method = "POST"
-    const options = {
+    const response = await fetch('http://localhost:7777/api/auth/login', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body)
-    };
+        body: JSON.stringify({ email, password }),
+    });
 
-    fetch(URL, options)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            console.log('Success:', responseData);
-            alert("Sign-Up Successful! You can now log in.");
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Erro: 404");
-        });
-
-    showLogin();
-
-}
-
-// Function for User Login
-function login() {
-    let email = document.getElementById("loginEmail").value;
-    let password = document.getElementById("loginPassword").value;
-    let errorMsg = document.getElementById("loginError");
-    let loginBtn = document.getElementById("myButton");
-    
-
-    if (!email || !password) {
-        errorMsg.textContent = "All fields are required!";
-        return;
+    const data = await response.json();
+    if (response.ok) {
+        localStorage.setItem('token', data.token); // Store token
+        window.location.href = 'home.html'; // Redirect to home page
+    } else {
+        alert('Login failed. Please check your credentials.');
     }
+});
 
-    // Retrieve users from localStorage
-    let users = JSON.parse(localStorage.getItem("users")) || [];
-    let validUser = users.find(user => user.email === email && user.password === password);
+// Signup Form Submission
+document.getElementById('signup-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('signup-name').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
 
-    // Save user details
-    users.push({ email, password });
-    // localStorage.setItem("users", JSON.stringify(users));
-    let URL = `${SERVER.HOST}${SERVER.SERVER_BASEURL}:${SERVER.PORT}${AUTH.LOGIN}`
-    let body = { email: email, password: password }
-
-    let method = "POST"
-    const options = {
+    const response = await fetch('http://localhost:7777/api/auth/signup', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body)
-    };
+        body: JSON.stringify({ name, email, password }),
+    });
 
-    loginBtn.disabled = true;
-    loginBtn.innerText = "Loading...";
-
-    fetch(URL, options)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(responseData => {
-            console.log('Success:', responseData);
-            
-            loginBtn.disabled = false;
-            loginBtn.innerText = "Login";
-
-            localStorage.setItem("token", responseData.token)
-            localStorage.setItem("isUserIn", true)
-
-            window.location.href = "/index.html"; 
-
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loginBtn.disabled = false;
-            loginBtn.innerText = "Login";
-            alert("User Not Found! Please Sign-Up");
-        });
-
-    showLogin();
-}
-
-function logout() {
-    localStorage.clear("isUserIn")
-    localStorage.clear("token")
-    window.location.href = "login.html"
-}
+    const data = await response.json();
+    if (response.ok) {
+        alert(data.msg); // User created successfully
+        window.location.href = 'index.html'; // Redirect to login page
+    } else {
+        alert('Signup failed. Please try again.');
+    }
+});

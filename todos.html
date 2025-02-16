@@ -1,80 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Todos</title>
-    <link rel="stylesheet" href="home-page.css">
-    <link rel="stylesheet" href="todo.css">
-</head>
-<body>
-    <header>
-        <nav class="navbar">
-            <a href="/index.html" class="logo">Productivity Web App</a>
-            <div class="nav-links">
-                <a href="#">About</a>
-                <a href="/todos.html">Todo</a>
-                <a href="#" onclick="logout()">logout</a>
-            </div>
-        </nav>
-    </header>
-
-    <main style="min-height: 80vh;">
-        <h1>Todos</h1>
-        <!-- Sign-Up Form -->
-        <form id="addTodoForm" class="form hidden" onsubmit="addTodo(event)">
-            <h2>Add a Todo</h2>
-            <input type="text" id="todoTitle" placeholder="Title" required>
-            <input type="text" id="todoDescription" placeholder="Description" required>
-            <select id="todoStatus">
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="main">
+      <div class="container">
+        <h1>Your Todos</h1>
+        <form id="add-todo-form">
+          <input type="text" id="todo-title" placeholder="Title" required />
+          <textarea
+            id="todo-description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <label for="Priority">Priority</label>
+          <select id="todo-priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <label for="Due Date">Due Date</label>
+          <input type="datetime-local" id="todo-due-date" required />
+          <button type="submit">Add Todo</button>
+        </form>
+        <div id="todos-list">
+          <!-- Todos will be dynamically added here -->
+        </div>
+        <a href="home.html">Back to Home</a>
+        <div id="edit-todo-modal" class="modal">
+          <div class="modal-content">
+            <h2>Edit Todo</h2>
+            <form id="edit-todo-form">
+              <input
+                type="text"
+                id="edit-todo-title"
+                placeholder="Title"
+                required
+              />
+              <textarea
+                id="edit-todo-description"
+                placeholder="Description"
+                required
+              ></textarea>
+              <select id="edit-todo-priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+              <select id="edit-todo-status">
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Delayed">Delayed</option>
                 <option value="Completed">Completed</option>
               </select>
-            <select id="todoPriority">
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
-              </select>
-            <button type="submit" onclick="">Add</button>
-            <p id="addTodoMessage"></p>
-        </form>
+              <button type="submit">Save Changes</button>
+              <button type="button" onclick="closeEditModal()">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </main>
-
-    <footer>
-        <div class="first">
-            <div class="con">
-                <div class="hey">
-                    <h2>Productivity Web App ltd!</h2>
-                </div>
-                <div class="icons">
-                    <a href="#"><img src="Image/facebook.png" alt="Facebook"></a>
-                    <a href="#"><img src="Image/instagram.png" alt="Instagram"></a>
-                    <a href="#"><img src="Image/twitter.png" alt="Twitter"></a>
-                    <button class="btn-3">Join us</button>
-                </div>
-            </div>
-
-            <p style="font-size: 0.7rem;">A productivity app helps users manage tasks, time, and goals efficiently
-                through features like to-do lists, calendars, and reminders. It streamlines workflows, enhances focus,
-                and improves organization for individuals and teams.</h5>
-        </div>
-
-        <div class="last-one">
-            <div class="brief">
-                <h5>© Productivity Web App Systems B.V. 2025 & Made By Mr. Harsh Bhargav</h5>
-                <ul>
-                    <li><a href="#">Privacy policy</a></li>
-                    <li><a href="#">Cookie policy</a></li>
-                    <li><a href="#">Cookie setting</a></li>
-                    <li><a href="#">Terms and conditions</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-    <script src="./config.js"></script>
-    <script src="./todo.js"></script>
-</body>
+    <script src="todos.js"></script>
+  </body>
 </html>

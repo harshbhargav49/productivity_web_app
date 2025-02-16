@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reminders</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="main">
+      <div class="container">
+        <h1>Your Reminders</h1>
+        <form id="add-reminder-form">
+          <input type="text" id="reminder-title" placeholder="Title" required />
+          <textarea
+            id="reminder-description"
+            placeholder="Description"
+            required
+          ></textarea>
+          <label for="">Repeat</label>
+          <select id="reminder-repeat">
+            <option value="None">None</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+          <label for="">Due Date</label>
+          <input type="datetime-local" id="reminder-due-date" required />
+
+          <button type="submit">Add Reminder</button>
+        </form>
+        <div id="reminders-list">
+          <!-- Reminders will be dynamically added here -->
+        </div>
+        <a href="home.html">Back to Home</a>
+        <div id="edit-reminder-modal" class="modal">
+          <div class="modal-content">
+            <h2>Edit Reminder</h2>
+            <form id="edit-reminder-form">
+              <input
+                type="text"
+                id="edit-reminder-title"
+                placeholder="Title"
+                required
+              />
+              <textarea
+                id="edit-reminder-description"
+                placeholder="Description"
+                required
+              ></textarea>
+              <label for="due-date">Due Date</label>
+              <input
+                type="datetime-local"
+                id="edit-reminder-due-date"
+                required
+              />
+              <label for="status">Repeat</label>
+              <select id="edit-reminder-repeat">
+                <option value="None">None</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+              </select>
+              <button type="submit">Save Changes</button>
+              <button type="button" onclick="closeEditReminderModal()">
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script src="reminders.js"></script>
+  </body>
+</html>
