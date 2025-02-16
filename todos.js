@@ -8,7 +8,7 @@ if (!token) {
 const todosList = document.getElementById('todos-list');
 
 // Fetch and Display Todos
-function fetchTodos() {
+function fetchTodos(filters) {
   // Inside fetchTodos function
 
   fetch('http://localhost:7777/api/todos', {
@@ -20,6 +20,9 @@ function fetchTodos() {
     .then(data => {
       todosList.innerHTML = ''; // Clear existing todos
 
+      if (filters) {
+        data = data.filter(todo => todo.priority === filters.priority)
+      }
 
       data.forEach(todo => {
         const todoItem = document.createElement('div');
@@ -151,3 +154,12 @@ document.getElementById('edit-todo-form').addEventListener('submit', async (e) =
     alert('Failed to update todo.');
   }
 });
+
+// Function to filter todos based on selected priority
+function filterTodos() {
+  const selectedPriority = document.getElementById("todo-filter-priority").value;
+  fetchTodos({ priority: selectedPriority })
+}
+
+// Event listener for dropdown change
+document.getElementById("todo-filter-priority").addEventListener("change", filterTodos);

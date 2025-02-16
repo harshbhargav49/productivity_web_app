@@ -27,6 +27,14 @@
           <input type="datetime-local" id="todo-due-date" required />
           <button type="submit">Add Todo</button>
         </form>
+        <div class="filters">
+          <label for="">Filter by Priority</label>
+          <select id="todo-filter-priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
         <div id="todos-list">
           <!-- Todos will be dynamically added here -->
         </div>
